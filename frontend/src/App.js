@@ -7,8 +7,6 @@ const instance = axios.create({
   baseURL: 'http://localhost:4000',
 });
 
-const db = new Surreal('http://127.0.0.1:8000/rpc');
-
 function App() {
   return (
     <Router>
@@ -97,28 +95,11 @@ function Posts() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // instance.get('/posts').then(res => {
-    //   if (res.status === 200) {
-    //     setPosts(res.data[0].result);
-    //   }
-    // });
-
-    try {
-      db.signin({
-			  NS: 'app',
-			  DB: 'app',
-        SC: 'user',
-        user: 'root',
-        pass: 'root',
-      });
-      db.use('app', 'app');
-      db.query('LIVE SELECT * FROM post').then(res => {
-        console.log(res);
-      });
-    }
-    catch (err) {
-      console.log(err);
-    }
+    instance.get('/posts').then(res => {
+      if (res.status === 200) {
+        setPosts(res.data[0].result);
+      }
+    });
   }, []);
 
   return (
@@ -137,22 +118,22 @@ function Post() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
-  const {postId} = useParams();
+  const { postId } = useParams();
 
   useEffect(() => {
     instance.get(`/post/${postId}`).then(res => {
       console.log(res);
-      if(res.status === 200)
-      setPost(res.data[0])
+      if (res.status === 200)
+        setPost(res.data[0])
     }
-      
-      ).catch(err => console.log(err));
+
+    ).catch(err => console.log(err));
     // instance.get(`/post/${postId}/comments`).then(res => setComments(res.data)).catch(err => console.log(err));
   }, []);
 
   const submitComment = () => {
-      instance.post('/comment', { postId: postId, username: 'test', content: newComment }).then(() => {
-        setNewComment('');
+    instance.post('/comment', { postId: postId, username: 'test', content: newComment }).then(() => {
+      setNewComment('');
       instance.get(`/post/${postId}/comments`).then(res => setComments(res.data));
     });
   };

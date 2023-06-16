@@ -80,4 +80,33 @@ app.get('/post/:postId/comments', async (req, res) => {
     res.json(comments);
 });
 
+// Route for a user to like a post
+app.post('/like', async (req, res) => {
+    const { username, postId } = req.body;
+    // Check if the user and the post exist
+    const user = await db.select(username);
+    const post = await db.select(postId);
+    if (!user || !post) {
+        res.status(404).json({ message: 'User or post not found', data: null });
+        return;
+    }
+    // Check if the user has already liked the post
+    const existingLike = await db.query(`SELECT * FROM like WHERE in INSIDE $username AND out INSIDE $postId`, {username, postId});
+    console.log(existingLike);
+    if (existingLike && existingLike.length && existingLike[0].result.length) {
+        res.status(400).json({ message: 'User has already liked this post', data: null });
+        return;
+    }
+    // Create the "like" relationship
+    await db.query(`RELATE ${username}->like->${postId} UNIQUE SET time.liked = time::now()`);
+    res.json({ message: 'Liked post successfully' });
+});
+
+// Route for getting all likes on a post
+app.get('/post/:postId/likes', async (req, res) => {
+    const { postId } = req.params;
+    const likes = await db.query('SELECT * FROM user->like->post WHERE post.id = $postId', [postId]);
+    res.json(likes);
+});
+
 app.listen(4000, () => console.log('Server running on port 4000'));

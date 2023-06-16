@@ -1,0 +1,63 @@
+#V2
+select * from user;
+select * from post;
+select * from user:user1
+select * from user:user1->like->post:l5338fjlzgoswyet9axh
+select * from like
+select * from like where in = user:user1
+remove db like
+remvoe table like
+select * from like
+remove table like
+select * from like
+remove table company
+INSERT INTO company (name, founded) VALUES ('SurrealDB', '2021-09-10');
+define field value on company flexible type object;
+INSERT INTO company (name, founded, value) VALUES ('MongoDB', '2021-09-10', 6);
+INSERT INTO company (value) VALUES (6);
+DEFINE company schemafull
+DEFINE company schemaful
+DEFINE table company schemaful
+define field value on company flexible type object;
+INSERT INTO company (value) VALUES (6);
+select * from company
+remove table company
+INSERT INTO company (name, founded) VALUES ('SurrealDB', '2021-09-10');
+select * from company;
+insert into company (testField) values (1) 
+select * from company;
+insert into company (testField2) values ('test') 
+define field testfield3 on company type string;
+insert into company (testField3) values ('test') 
+insert into company (testField2) values ('test') 
+insert into company (testField3) values (5) 
+remove table company
+select * from company;
+insert into company (name) values ('test')
+insert into company (age) values (35)
+define table comapny schemafull
+define field testfield1 type string;
+define field testfield1 on company type string;
+insert into company (name) values ('test1')
+select * from company;
+define field name on company type number;
+insert into company (name) values ('test2')
+insert into company (name) values (10)
+define field age on company type string;
+insert into company (age) values ('ten')
+insert into company (age) values (10)
+insert into company (age) values ({age: 10})
+insert into company (name) values ({age: 10})
+insert into company (field1) values ('value')
+select * from company
+insert into company (field1) values ({age: 10})
+define field1 age on company type number;
+define field field1 on company type number;
+insert into company (field1) values ({age: 10})
+define table company schemafull
+insert into company (field2) values (10)
+insert into company (test) values (10)
+define field field2 on company type number;
+insert into company (field2) values (10)
+insert into company (field2, field3) values (10, 13)
+remove table company

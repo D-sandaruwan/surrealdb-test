@@ -66,6 +66,21 @@ app.post('/post', async (req, res) => {
     res.json(post);
 });
 
+// Route for updating a post
+app.put('/post/:postId', async (req, res) => {
+    const { postId } = req.params;
+    const { content } = req.body;
+    const post = await db.query('UPDATE $postId SET content = $content', {postId, content});
+    res.json(post);
+});
+
+// Route for deleting a post
+app.delete('/post/:postId', async (req, res) => {
+    const { postId } = req.params;
+    const post = await db.query(`DELETE $postId`, {postId});
+    res.json(post);
+});
+
 // Route for commenting on a post
 app.post('/comment', async (req, res) => {
     const { postId, username, content } = req.body;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const instance = axios.create({
   baseURL: 'http://localhost:4000',
@@ -8,6 +8,8 @@ const instance = axios.create({
 
 function Posts() {
   const [posts, setPosts] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     instance.get('/posts').then(res => {
@@ -27,8 +29,15 @@ function Posts() {
               {post.content}
             </Link>
           </div>
+          
         ))}
       </div>
+      <button
+            className="w-full p-2 mt-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700"
+            onClick={() => navigate('/create-post')}
+          >
+            Create Post
+          </button>
     </div>
   );
 }

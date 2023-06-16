@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const instance = axios.create({
   baseURL: 'http://localhost:4000',
@@ -9,9 +10,16 @@ function CreatePost() {
   const [content, setContent] = useState('');
   // get logged user
   const username = localStorage.getItem('user');
+  const navigate = useNavigate();
 
-  const createPost = () => {
-    instance.post('/post', { username, content });
+  const createPost = async () => {
+    try {
+      await instance.post('/post', { username, content });
+      navigate('/posts');
+    }
+    catch (err) {
+      console.log(err);
+    }
   };
 
   return (
